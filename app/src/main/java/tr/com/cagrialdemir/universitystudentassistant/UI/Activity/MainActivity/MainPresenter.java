@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 
 import tr.com.cagrialdemir.universitystudentassistant.BaseMVP.BasePresenter;
-import tr.com.cagrialdemir.universitystudentassistant.Core.Data.repository.ProjectRepository;
 
 
 /**
  * Created by barisatalay on 21.02.2019.
  */
-public class MainPresenter extends BasePresenter<MainView, ProjectRepository> {
+public class MainPresenter extends BasePresenter<MainView> {
 
     public MainPresenter(Activity mActivity) {
         super(mActivity);

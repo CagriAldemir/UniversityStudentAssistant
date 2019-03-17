@@ -1,9 +1,14 @@
 package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
 
 
+import android.content.ContentValues;
+
 import java.util.Date;
 
-public class Hatirlatma {
+import tr.com.cagrialdemir.universitystudentassistant.Core.Data.SQLite.DatabaseSchema;
+import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.UtilsDateTime;
+
+public class Hatirlatma implements BaseModel {
 
     private String hatirlatmaAciklamasi;
     private String hatirlatmaBasligi;
@@ -13,6 +18,7 @@ public class Hatirlatma {
     private Date hatirlatmaTarihi;
 
 
+    //region Getters Setters
     public String getHatirlatmaAciklamasi() {
         return hatirlatmaAciklamasi;
     }
@@ -59,5 +65,48 @@ public class Hatirlatma {
 
     public void setHatirlatmaTarihi(Date hatirlatmaTarihi) {
         this.hatirlatmaTarihi = hatirlatmaTarihi;
+    }
+    //endregion
+
+
+    @Override
+    public boolean save() {
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBasligi, getHatirlatmaBasligi());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaAciklamasi, getHatirlatmaAciklamasi());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaTarihi, UtilsDateTime.dateToString(getHatirlatmaTarihi()));
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBildirimDurumu, isHatirlatmaBildirimDurumu());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBildirimNeKadarOnceGonderilecek, getHatirlatmaBildirimNeKadarOnceGonderilecek());
+
+        return mSqLiteHelper.insertData(SqliteTable.TABLE_USER, values);
+    }
+
+    @Override
+    public int update() {
+        ContentValues values = new ContentValues();
+
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBasligi, getHatirlatmaBasligi());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaAciklamasi, getHatirlatmaAciklamasi());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaTarihi, UtilsDateTime.dateToString(getHatirlatmaTarihi()));
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBildirimDurumu, isHatirlatmaBildirimDurumu());
+        values.put(DatabaseSchema.COL_HATIRLATMALAR_hatirlatmaBildirimNeKadarOnceGonderilecek, getHatirlatmaBildirimNeKadarOnceGonderilecek());
+
+        return sqliteHelper.updateData(SqliteTable.TABLE_USER, values, email);
+    }
+
+    @Override
+    public boolean check() {
+        return sqliteHelper.checkUser(email, password);
+    }
+
+    @Override
+    public void getByID() {
+        return sqliteHelper.getUserDetail(id);
+    }
+
+    @Override
+    public boolean delete() {
+        return sqliteHelper.deleteUser(email);
     }
 }

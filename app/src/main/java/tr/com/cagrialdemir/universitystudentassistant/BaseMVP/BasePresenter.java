@@ -2,12 +2,9 @@ package tr.com.cagrialdemir.universitystudentassistant.BaseMVP;
 
 import android.app.Activity;
 
-import tr.com.cagrialdemir.universitystudentassistant.Core.Data.repository.ProjectRepository;
-
-public abstract class BasePresenter<V extends BaseView, R extends ProjectRepository> implements Presenter<V, R> {
+public abstract class BasePresenter<V extends BaseView> implements Presenter<V> {
     public String TAG = this.getClass().getSimpleName();
     private V view;
-    private R repository;
     private Activity mActivity;
 
 
@@ -26,19 +23,8 @@ public abstract class BasePresenter<V extends BaseView, R extends ProjectReposit
     }
 
     @Override
-    public void attachRepository(R repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public void detachRepository() {
-        repository = null;
-    }
-
-    @Override
     public void detachAll() {
         detachView();
-        detachRepository();
     }
 
     public Activity getActivity() {
@@ -55,10 +41,6 @@ public abstract class BasePresenter<V extends BaseView, R extends ProjectReposit
 
     public void checkViewAttached() {
         if (!isViewAttached()) throw new MvpViewNotAttachedException();
-    }
-
-    public R getRepository() {
-        return repository;
     }
 
     public static class MvpViewNotAttachedException extends RuntimeException {
