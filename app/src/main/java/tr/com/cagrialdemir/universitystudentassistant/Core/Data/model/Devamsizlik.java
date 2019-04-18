@@ -4,11 +4,12 @@ package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
 import android.content.ContentValues;
 
 import java.util.Date;
+import java.util.List;
 
 import tr.com.cagrialdemir.universitystudentassistant.Core.Data.SQLite.DatabaseSchema;
 import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.UtilsDateTime;
 
-public class Devamsizlik implements BaseModel {
+public class Devamsizlik implements BaseModel<Devamsizlik> {
 
     private int dersID;
     private int devamsizlikID;
@@ -85,5 +86,10 @@ public class Devamsizlik implements BaseModel {
     @Override
     public boolean delete() {
         return sqliteHelper.deleteUser(email);
+    }
+
+    @Override
+    public List<Devamsizlik> getAllByID(String where, String args) {
+        return null;
     }
 }

@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import tr.com.cagrialdemir.universitystudentassistant.Core.Data.SQLite.DatabaseSchema;
 import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.UtilsDateTime;
 
-public class Ders implements BaseModel {
+public class Ders implements BaseModel<Ders> {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -212,4 +214,49 @@ public class Ders implements BaseModel {
     public boolean delete() {
         return mDatabase.delete(DatabaseSchema.TABLE_DERSLER, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())}) > 0;
     }
+
+    @Override
+    public List<Ders> getAllByID(String where, String[] args) {
+
+        List<Ders> mList;
+
+        String[] columns = {
+                DatabaseSchema.COL_DERSLER_dersID,
+                DatabaseSchema.COL_DERSLER_donemID,
+                DatabaseSchema.COL_DERSLER_dersAdi,
+                DatabaseSchema.COL_DERSLER_dersKodu,
+                DatabaseSchema.COL_DERSLER_dersKredisi,
+                DatabaseSchema.COL_DERSLER_dersHarfNotu,
+                DatabaseSchema.COL_DERSLER_dersDevamsizlikSiniri,
+                DatabaseSchema.COL_DERSLER_dersYeri,
+                DatabaseSchema.COL_DERSLER_dersGunuSaati
+        };
+
+        String selection = DatabaseSchema.COL_DERSLER_dersID + " =? ";
+
+        Cursor cursor = mDatabase.query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            mList = new ArrayList<>();
+
+            while (cursor.moveToNext()) {
+                setDersID(cursor.getInt(0));
+                setDonemID(cursor.getInt(1));
+                setDersAdi(cursor.getString(2));
+                setDersKodu(cursor.getString(3));
+                setDersKredisi(cursor.getInt(4));
+                setDersHarfNotu(cursor.getInt(5));
+                setDersDevamsizlikSiniri(cursor.getInt(6));
+                setDersYeri(cursor.getString(7));
+                setDersGunuSaati(UtilsDateTime.stringToDate(cursor.getString(8)));
+
+                mList.add(this);
+            }
+            return mList;
+        } else {
+            return null;
+        }
+
+    }
+
 }

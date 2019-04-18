@@ -1,6 +1,8 @@
 package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
 
-public interface BaseModel {
+import java.util.List;
+
+public interface BaseModel <M> {
 
     boolean save();
 
@@ -11,4 +13,6 @@ public interface BaseModel {
     void getByID();
 
     boolean delete();
+
+    List<M> getAllByID(String where, String[] args);
 }
