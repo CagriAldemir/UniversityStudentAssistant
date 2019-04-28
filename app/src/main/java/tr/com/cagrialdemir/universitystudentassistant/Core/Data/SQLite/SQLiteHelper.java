@@ -38,6 +38,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         onCreate(db);
     }
+
+
 //    public boolean insert(String table, ContentValues values) {
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        long result = db.insert(table, null, values);

@@ -3,7 +3,7 @@ package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Ders implements BaseModel<Ders> {
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private SQLiteDatabase mDatabase;
+    private SQLiteOpenHelper mDatabase;
 
     private String dersAdi;
     private int dersDevamsizlikSiniri;
@@ -29,8 +29,20 @@ public class Ders implements BaseModel<Ders> {
     private String dersYeri;
     private int donemID;
 
-    public Ders(SQLiteDatabase mDatabase) {
+    public Ders(SQLiteOpenHelper mDatabase) {
         this.mDatabase = mDatabase;
+    }
+
+    public Ders(SQLiteOpenHelper mDatabase, String dersAdi, int dersDevamsizlikSiniri, Date dersGunuSaati, int dersHarfNotu, String dersKodu, int dersKredisi, String dersYeri, int donemID) {
+        this.mDatabase = mDatabase;
+        this.dersAdi = dersAdi;
+        this.dersDevamsizlikSiniri = dersDevamsizlikSiniri;
+        this.dersGunuSaati = dersGunuSaati;
+        this.dersHarfNotu = dersHarfNotu;
+        this.dersKodu = dersKodu;
+        this.dersKredisi = dersKredisi;
+        this.dersYeri = dersYeri;
+        this.donemID = donemID;
     }
 
     //region Getters Setters
@@ -121,7 +133,7 @@ public class Ders implements BaseModel<Ders> {
         values.put(DatabaseSchema.COL_DERSLER_dersYeri, getDersYeri());
         values.put(DatabaseSchema.COL_DERSLER_dersGunuSaati, UtilsDateTime.dateToString(getDersGunuSaati()));
 
-        long result = mDatabase.insert(DatabaseSchema.TABLE_DERSLER, null, values);
+        long result = mDatabase.getWritableDatabase().insert(DatabaseSchema.TABLE_DERSLER, null, values);
         if (result == -1) {
             Log.d(TAG, "failed to save data!");
             return false;
@@ -144,7 +156,7 @@ public class Ders implements BaseModel<Ders> {
         values.put(DatabaseSchema.COL_DERSLER_dersYeri, getDersYeri());
         values.put(DatabaseSchema.COL_DERSLER_dersGunuSaati, UtilsDateTime.dateToString(getDersGunuSaati()));
 
-        return mDatabase.update(DatabaseSchema.TABLE_DERSLER, values, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())});
+        return mDatabase.getWritableDatabase().update(DatabaseSchema.TABLE_DERSLER, values, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())});
     }
 
     @Override
@@ -159,7 +171,7 @@ public class Ders implements BaseModel<Ders> {
         String[] args = {String.valueOf(getDersID())};
 
         //query to user table
-        Cursor cursor = mDatabase.query(DatabaseSchema.TABLE_DERSLER,
+        Cursor cursor = mDatabase.getReadableDatabase().query(DatabaseSchema.TABLE_DERSLER,
                 columns, //return
                 selection, //where clause
                 args, // value of the clause
@@ -195,7 +207,7 @@ public class Ders implements BaseModel<Ders> {
             String selection = DatabaseSchema.COL_DERSLER_dersID + " =? ";
             String[] args = {String.valueOf(getDersID())};
 
-            Cursor cursor = mDatabase.query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
+            Cursor cursor = mDatabase.getReadableDatabase().query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
                 setDonemID(cursor.getInt(1));
@@ -212,7 +224,7 @@ public class Ders implements BaseModel<Ders> {
 
     @Override
     public boolean delete() {
-        return mDatabase.delete(DatabaseSchema.TABLE_DERSLER, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())}) > 0;
+        return mDatabase.getWritableDatabase().delete(DatabaseSchema.TABLE_DERSLER, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())}) > 0;
     }
 
     @Override
@@ -234,7 +246,7 @@ public class Ders implements BaseModel<Ders> {
 
         String selection = DatabaseSchema.COL_DERSLER_dersID + " =? ";
 
-        Cursor cursor = mDatabase.query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
+        Cursor cursor = mDatabase.getReadableDatabase().query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             mList = new ArrayList<>();

@@ -14,25 +14,26 @@ import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.UtilsKeyboard;
 
 /**
  * Created by barisatalay on 21.02.2019.
- *
+ * <p>
  * Bu sınıf içerisinde bütün aktivitylerde kullanmak istediğin ortak şeyleri hazırlamalısın.
- * */
+ */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     protected final String TAG = this.getClass().getSimpleName();
     private boolean isUiRendered = false;
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
-       super.onCreate(bundle);
+        super.onCreate(bundle);
 
-       initPresenter();
+        initPresenter();
+        initViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (!isUiRendered){
+        if (!isUiRendered) {
             renderUi();
         }
     }
@@ -84,5 +85,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
 
     public abstract void initPresenter();
+
     public abstract void onAsynchronousLoad();
+
+    public abstract void initViews();
 }

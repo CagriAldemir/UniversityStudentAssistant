@@ -15,17 +15,17 @@ public class MainPresenter extends BasePresenter<MainView> {
         super(mActivity);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1000) {
-                if (data.hasExtra("UserName")) {
-                    String userName = data.getStringExtra("UserName");
-
-                    if (getView() != null) {
-                        getView().loadUserName(userName);
-                    }
-                }
-            }
-        }
-    }
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == 1000) {
+//                if (data.hasExtra("UserName")) {
+//                    String userName = data.getStringExtra("UserName");
+//
+//                    if (getView() != null) {
+//                        getView().loadUserName(userName);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

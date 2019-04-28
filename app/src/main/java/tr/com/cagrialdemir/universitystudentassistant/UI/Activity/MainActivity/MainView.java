@@ -7,5 +7,5 @@ import tr.com.cagrialdemir.universitystudentassistant.BaseMVP.BaseView;
  * Created by barisatalay on 21.02.2019.
  */
 public interface MainView extends BaseView {
-    void loadUserName(String userName);
+    //void loadUserName(String userName);
 }
