@@ -4,13 +4,13 @@ package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import tr.com.cagrialdemir.universitystudentassistant.Core.Data.SQLite.DatabaseSchema;
+import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.MyLog;
 import tr.com.cagrialdemir.universitystudentassistant.Core.Utils.UtilsDateTime;
 
 public class Ders implements BaseModel<Ders> {
@@ -135,10 +135,10 @@ public class Ders implements BaseModel<Ders> {
 
         long result = mDatabase.getWritableDatabase().insert(DatabaseSchema.TABLE_DERSLER, null, values);
         if (result == -1) {
-            Log.d(TAG, "failed to save data!");
+            MyLog.i(TAG, "save()", "Insert success!");
             return false;
         } else {
-            Log.d(TAG, "save data successful");
+            MyLog.e(TAG, "save()", "Insert error!");
             return true;
         }
     }
@@ -157,6 +157,7 @@ public class Ders implements BaseModel<Ders> {
         values.put(DatabaseSchema.COL_DERSLER_dersGunuSaati, UtilsDateTime.dateToString(getDersGunuSaati()));
 
         return mDatabase.getWritableDatabase().update(DatabaseSchema.TABLE_DERSLER, values, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())});
+        //todo Return edilen integer değere göre log metodu yaz.
     }
 
     @Override
@@ -183,48 +184,55 @@ public class Ders implements BaseModel<Ders> {
         cursor.close();
         mDatabase.close();
         if (count > 0) {
-            Log.d(TAG, "return true");
+            MyLog.i(TAG, "check", "TRUE");
             return true;
         }
+        MyLog.i(TAG, "check", "FALSE");
         return false;
     }
 
     @Override
     public void getByID() {
-        {
-            String[] columns = {
-                    DatabaseSchema.COL_DERSLER_dersID,
-                    DatabaseSchema.COL_DERSLER_donemID,
-                    DatabaseSchema.COL_DERSLER_dersAdi,
-                    DatabaseSchema.COL_DERSLER_dersKodu,
-                    DatabaseSchema.COL_DERSLER_dersKredisi,
-                    DatabaseSchema.COL_DERSLER_dersHarfNotu,
-                    DatabaseSchema.COL_DERSLER_dersDevamsizlikSiniri,
-                    DatabaseSchema.COL_DERSLER_dersYeri,
-                    DatabaseSchema.COL_DERSLER_dersGunuSaati
-            };
 
-            String selection = DatabaseSchema.COL_DERSLER_dersID + " =? ";
-            String[] args = {String.valueOf(getDersID())};
+        String[] columns = {
+                DatabaseSchema.COL_DERSLER_dersID,
+                DatabaseSchema.COL_DERSLER_donemID,
+                DatabaseSchema.COL_DERSLER_dersAdi,
+                DatabaseSchema.COL_DERSLER_dersKodu,
+                DatabaseSchema.COL_DERSLER_dersKredisi,
+                DatabaseSchema.COL_DERSLER_dersHarfNotu,
+                DatabaseSchema.COL_DERSLER_dersDevamsizlikSiniri,
+                DatabaseSchema.COL_DERSLER_dersYeri,
+                DatabaseSchema.COL_DERSLER_dersGunuSaati
+        };
 
-            Cursor cursor = mDatabase.getReadableDatabase().query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
+        String selection = DatabaseSchema.COL_DERSLER_dersID + " =? ";
+        String[] args = {String.valueOf(getDersID())};
 
-            if (cursor != null && cursor.moveToFirst()) {
-                setDonemID(cursor.getInt(1));
-                setDersAdi(cursor.getString(2));
-                setDersKodu(cursor.getString(3));
-                setDersKredisi(cursor.getInt(4));
-                setDersHarfNotu(cursor.getInt(5));
-                setDersDevamsizlikSiniri(cursor.getInt(6));
-                setDersYeri(cursor.getString(7));
-                setDersGunuSaati(UtilsDateTime.stringToDate(cursor.getString(8)));
-            }
+        Cursor cursor = mDatabase.getReadableDatabase().query(DatabaseSchema.TABLE_DERSLER, columns, selection, args, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            MyLog.i(TAG, "getByID", "Row found!");
+            setDonemID(cursor.getInt(1));
+            setDersAdi(cursor.getString(2));
+            setDersKodu(cursor.getString(3));
+            setDersKredisi(cursor.getInt(4));
+            setDersHarfNotu(cursor.getInt(5));
+            setDersDevamsizlikSiniri(cursor.getInt(6));
+            setDersYeri(cursor.getString(7));
+            setDersGunuSaati(UtilsDateTime.stringToDate(cursor.getString(8)));
+        } else {
+            MyLog.i(TAG, "getByID", "Row not found!");
+
+            //todo Logları kontrol et.
         }
     }
+
 
     @Override
     public boolean delete() {
         return mDatabase.getWritableDatabase().delete(DatabaseSchema.TABLE_DERSLER, DatabaseSchema.COL_DERSLER_dersID + " =? ", new String[]{String.valueOf(getDersID())}) > 0;
+        //todo Return edilen integer değere göre log metodu yaz.
     }
 
     @Override
@@ -264,11 +272,12 @@ public class Ders implements BaseModel<Ders> {
 
                 mList.add(this);
             }
+            MyLog.i(TAG, "getAllByID", "Success!");
             return mList;
         } else {
+            MyLog.i(TAG, "getAllByID", "Failed!");
             return null;
         }
-
     }
 
 }

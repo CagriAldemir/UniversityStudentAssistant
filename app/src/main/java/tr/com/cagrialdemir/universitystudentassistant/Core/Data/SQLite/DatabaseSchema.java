@@ -2,6 +2,7 @@ package tr.com.cagrialdemir.universitystudentassistant.Core.Data.SQLite;
 
 public class DatabaseSchema {
 
+    //region CREATE TABLE SCRIPTS
     static final String CREATE_DONEMLER = "CREATE TABLE '" + DatabaseSchema.TABLE_DONEMLER + "' (\n" +
             " '" + DatabaseSchema.COL_DONEMLER_donemID + "' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
             " '" + DatabaseSchema.COL_DONEMLER_donemAdi + "' INTEGER NOT NULL\n" +
@@ -61,6 +62,7 @@ public class DatabaseSchema {
             " '" + DatabaseSchema.COL_SINAVLAR_sinavYuzdesi + "' INTEGER NOT NULL,\n" +
             " FOREIGN KEY('" + DatabaseSchema.COL_SINAVLAR_dersID + "') REFERENCES '" + DatabaseSchema.TABLE_DERSLER + "'('" + DatabaseSchema.COL_DERSLER_dersID + "')\n" +
             ")";
+    //endregion
 
 
     //region TABLE DONEMLER
