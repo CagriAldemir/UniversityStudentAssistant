@@ -1,4 +1,4 @@
-package tr.com.cagrialdemir.universitystudentassistant.Core.Data.model;
+package tr.com.cagrialdemir.universitystudentassistant.Core.Data.Models;
 
 
 import android.content.ContentValues;
@@ -227,7 +227,6 @@ public class Ders implements BaseModel<Ders> {
             //todo Logları kontrol et.
         }
     }
-
 
     @Override
     public boolean delete() {

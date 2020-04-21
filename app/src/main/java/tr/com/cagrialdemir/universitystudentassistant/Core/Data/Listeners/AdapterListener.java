@@ -1,4 +1,4 @@
-package tr.com.cagrialdemir.universitystudentassistant.Core.Data.listener;
+package tr.com.cagrialdemir.universitystudentassistant.Core.Data.Listeners;
 
 import android.view.View;
 

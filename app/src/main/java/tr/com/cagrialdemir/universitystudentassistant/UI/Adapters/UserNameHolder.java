@@ -1,4 +1,4 @@
-package tr.com.cagrialdemir.universitystudentassistant.UI.adapter;
+package tr.com.cagrialdemir.universitystudentassistant.UI.Adapters;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;

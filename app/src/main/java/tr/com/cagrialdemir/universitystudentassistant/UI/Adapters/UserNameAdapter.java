@@ -1,11 +1,10 @@
-package tr.com.cagrialdemir.universitystudentassistant.UI.adapter;
+package tr.com.cagrialdemir.universitystudentassistant.UI.Adapters;
 
 import android.view.View;
 
 import java.util.List;
 
 import tr.com.cagrialdemir.universitystudentassistant.BaseMVP.BaseRecyclerAdapter;
-import tr.com.cagrialdemir.universitystudentassistant.R;
 
 
 public class UserNameAdapter extends BaseRecyclerAdapter<UserNameHolder, String> {

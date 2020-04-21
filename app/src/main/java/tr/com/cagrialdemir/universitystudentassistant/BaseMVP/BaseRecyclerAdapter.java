@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import tr.com.cagrialdemir.universitystudentassistant.Core.Data.listener.AdapterListener;
+import tr.com.cagrialdemir.universitystudentassistant.Core.Data.Listeners.AdapterListener;
 
 /**
  * Created by barisatalay on 21.02.2019.

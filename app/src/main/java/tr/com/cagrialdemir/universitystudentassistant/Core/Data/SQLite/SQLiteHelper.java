@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 @SuppressWarnings("WeakerAccess")
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "mData";
+    public static final String DATABASE_NAME = "mData.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TAG = SQLiteHelper.class.getSimpleName();
 
